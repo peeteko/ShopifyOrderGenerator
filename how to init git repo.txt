@@ -1,3 +1,5 @@
 PS C:\Projects\epf\ShopifyOrderGenerator> git init
 Initialized empty Git repository in C:/Projects/epf/ShopifyOrderGenerator/.git/
 PS C:\Projects\epf\ShopifyOrderGenerator> git remote add origin https://github.com/peeteko/ShopifyOrderGenerator.git
+PS C:\Projects\epf\ShopifyOrderGenerator> git branch -M main
+PS C:\Projects\epf\ShopifyOrderGenerator> git push -u origin main
