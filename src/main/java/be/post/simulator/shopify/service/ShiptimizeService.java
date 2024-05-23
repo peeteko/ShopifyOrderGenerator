@@ -2,10 +2,6 @@ package be.post.simulator.shopify.service;
 
 import be.post.simulator.shopify.config.ShiptimizeServiceConfiguration;
 import be.post.simulator.shopify.logging.LoggingCustomizer;
-import be.post.simulator.shopify.model.order.ShopifyOrder;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -18,7 +14,7 @@ import org.apache.commons.codec.digest.HmacUtils;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.UUID;
+
 
 @Component
 public class ShiptimizeService {
@@ -43,7 +39,6 @@ public class ShiptimizeService {
         try {
             String hmac = Base64.encodeBase64String(new HmacUtils(HmacAlgorithms.HMAC_SHA_256, config.getSecret().getBytes()).hmac(rawShopifyOrder));
             HttpEntity<String> request = new HttpEntity<>(rawShopifyOrder, getHeaders(hmac));
-           // ShopifyOrder shopifyOrder = generateShopifyOrder(rawShopifyOrder);
             ResponseEntity<String> response = this.restTemplate.exchange(
                     config.getWebhookUrl(), HttpMethod.POST, request, String.class);
 
@@ -70,11 +65,6 @@ public class ShiptimizeService {
         return headers;
     }
 
-    private ShopifyOrder generateShopifyOrder(String rawShopifyOrder) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        ShopifyOrder shopifyOrder = mapper.readValue(rawShopifyOrder, ShopifyOrder.class);
-        return shopifyOrder;
-    }
+
 }
 
